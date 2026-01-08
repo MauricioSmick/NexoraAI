@@ -22,14 +22,15 @@ document.querySelectorAll(".faq-question").forEach(btn => {
 });
 
 /* ===============================
-   ENVIO PARA N8N
+   ENVIO PARA N8N (USANDO NGROK)
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contactForm");
   const submitBtn = document.getElementById("submitBtn");
   const messageBox = document.getElementById("formMessage");
 
-  const N8N_WEBHOOK_URL = "https://SEU_N8N_REAL/webhook/nexora-leads";
+  // 🚀 Atualize aqui com a URL gerada pelo ngrok
+  const N8N_WEBHOOK_URL = "https://unspent-krishna-ununique.ngrok-free.dev/webhook-test/contact";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -38,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.textContent = "Enviando...";
 
     const payload = {
-      nome: nome.value,
-      email: email.value,
-      empresa: empresa.value || "",
-      mensagem: mensagem.value,
-      data_agendamento: dataAgendamento.value || "",
+      nome: document.getElementById("nome").value,
+      email: document.getElementById("email").value,
+      empresa: document.getElementById("empresa").value || "",
+      mensagem: document.getElementById("mensagem").value,
+      data_agendamento: document.getElementById("dataAgendamento").value || "",
       origem: "site_nexora",
       pagina: window.location.href,
       data_envio: new Date().toISOString()
