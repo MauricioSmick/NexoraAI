@@ -1,3 +1,4 @@
+
 /* ===============================
    FLATPICKR (CALENDÁRIO)
 ================================ */
@@ -22,7 +23,7 @@ document.querySelectorAll(".faq-question").forEach(btn => {
 });
 
 /* ===============================
-   ENVIO PARA N8N (USANDO NGROK)
+   ENVIO PARA N8N + SUPABASE
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contactForm");
@@ -31,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🚀 Atualize aqui com a URL gerada pelo ngrok
   const N8N_WEBHOOK_URL = "https://unspent-krishna-ununique.ngrok-free.dev/webhook-test/contact";
+
+  // 🚀 Dados do Supabase
+  const SUPABASE_URL = "https://SEU_PROJETO.supabase.co"; // substitua
+  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_ANON";         // substitua
+  const SUPABASE_TABLE = "leads";                         // sua tabela
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -50,14 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch(N8N_WEBHOOK_URL, {
+      // 1️⃣ Envia para n8n
+      const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
+      if (!n8nResponse.ok) throw new Error("Erro ao enviar para n8n");
 
-      if (!response.ok) throw new Error("Erro no envio");
+      // 2️⃣ Envia para Supabase
+      const supabaseResponse = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!supabaseResponse.ok) throw new Error("Erro ao enviar para Supabase");
 
+      // ✅ Sucesso
       showMessage("✅ Solicitação enviada com sucesso!", "success");
       form.reset();
 
