@@ -1,4 +1,3 @@
-
 /* ===============================
    FLATPICKR (CALENDÁRIO)
 ================================ */
@@ -33,10 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🚀 Atualize aqui com a URL gerada pelo ngrok
   const N8N_WEBHOOK_URL = "https://unspent-krishna-ununique.ngrok-free.dev/webhook-test/contact";
 
-  // 🚀 Dados do Supabase
-  const SUPABASE_URL = "https://SEU_PROJETO.supabase.co"; // substitua
-  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_ANON";         // substitua
-  const SUPABASE_TABLE = "leads";                         // sua tabela
+  // 🚀 Dados do Supabase - substitua pelos seus!
+  const SUPABASE_URL = "https://SEU_PROJETO.supabase.co"; // ex: https://abcdxyz.supabase.co
+  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_ANON";          // ex: sua anon public key
+  const SUPABASE_TABLE = "leads";                          // nome da tabela no Supabase
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
