@@ -26,28 +26,37 @@
 
     <!-- COLUNA DIREITA: FORMULÁRIO -->
     <div class="form-container">
-      <form class="contact-form">
-        <div class="form-group">
-          <label>Nome completo</label>
-          <input type="text" placeholder="Ex: João Silva" required>
-        </div>
+     <form class="contact-form" id="contactForm">
+  <!-- Seus campos existentes -->
+  <div class="form-group">
+    <label>Nome completo</label>
+    <input type="text" name="nome" id="nome" placeholder="Ex: João Silva" required>
+  </div>
 
-        <div class="form-group">
-          <label>Email profissional</label>
-          <input type="email" placeholder="voce@empresa.com" required>
-        </div>
+  <div class="form-group">
+    <label>Email profissional</label>
+    <input type="email" name="email" id="email" placeholder="voce@empresa.com" required>
+  </div>
 
-        <div class="form-group">
-          <label>Empresa (opcional)</label>
-          <input type="text" placeholder="Nome da empresa">
-        </div>
+  <div class="form-group">
+    <label>Empresa (opcional)</label>
+    <input type="text" name="empresa" id="empresa" placeholder="Nome da empresa">
+  </div>
 
-        <div class="form-group">
-          <label>Descreva seu processo</label>
-          <textarea placeholder="Explique o que você faz hoje e onde há trabalho manual..." rows="4" required></textarea>
-        </div>
+  <div class="form-group">
+    <label>Descreva seu processo</label>
+    <textarea name="mensagem" id="mensagem" placeholder="Explique o que você faz hoje..." rows="4" required></textarea>
+  </div>
 
-        <button type="submit" class="btn-primary pulse">Solicitar Diagnóstico</button>
+  <!-- Campo oculto para data/hora do calendário -->
+  <input type="hidden" name="data_agendamento" id="dataAgendamento">
+
+  <button type="submit" class="btn-primary pulse" id="submitBtn">
+    Solicitar Diagnóstico
+  </button>
+  
+  <div id="formMessage" class="form-message" style="display: none;"></div>
+</form>
         <p class="form-note">🔒 Seus dados estão seguros. Não fazemos spam.</p>
       </form>
     </div>
