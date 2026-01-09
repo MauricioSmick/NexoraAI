@@ -1,3 +1,162 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===== SCROLL FADE-UP ANIMATION ===== */
+  const animatedElements = document.querySelectorAll(".fade-up");
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  animatedElements.forEach(el => observer.observe(el));
+
+  /* ===== NAVBAR SCROLL EFFECT ===== */
+  const header = document.querySelector(".header");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+
+  /* ===== CARD GLOW SEGUINDO O CURSOR ===== */
+  document.querySelectorAll(".feature, .box, .case").forEach(card => {
+    card.addEventListener("mousemove", e => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--x", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--y", `${e.clientY - rect.top}px`);
+    });
+  });
+
+  /* ===== COUNTER ANIMATION ===== */
+  const counters = document.querySelectorAll("[data-count]");
+
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const el = entry.target;
+      const target = +el.dataset.count;
+      let current = 0;
+
+      const interval = setInterval(() => {
+        current++;
+        el.textContent = current;
+        if (current >= target) clearInterval(interval);
+      }, 20);
+
+      countObserver.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+
+  counters.forEach(c => countObserver.observe(c));
+
+  /* ===== PARTICLES IA ===== */
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  const particles = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+  }));
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(95,124,255,0.6)";
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dist = Math.hypot(p.x - q.x, p.y - q.y);
+        if (dist < 120) {
+          ctx.strokeStyle = "rgba(95,124,255,0.15)";
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.stroke();
+        }
+      }
+    });
+
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  /* ===== TEXTO DINÂMICO TYPE EFFECT ===== */
+  const words = ["vendas", "atendimento", "operações", "processos", "decisões"];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+  const dynamicText = document.getElementById("dynamicText");
+
+  function typeEffect() {
+    const currentWord = words[wordIndex];
+
+    if (!deleting) {
+      dynamicText.textContent = currentWord.slice(0, charIndex++);
+      if (charIndex > currentWord.length) {
+        deleting = true;
+        setTimeout(typeEffect, 1200);
+        return;
+      }
+    } else {
+      dynamicText.textContent = currentWord.slice(0, charIndex--);
+      if (charIndex === 0) {
+        deleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+    }
+  }
+
+  setInterval(typeEffect, 120);
+
+  /* ===== SCROLL TEXT MORPH ===== */
+  const scrollWords = ["vendas", "suporte", "processos", "decisões", "operações"];
+  const scrollText = document.getElementById("scrollText");
+
+  window.addEventListener("scroll", () => {
+    const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const index = Math.floor(scrollPercent * scrollWords.length);
+    scrollText.textContent = scrollWords[Math.min(index, scrollWords.length - 1)];
+  });
+
+  /* ===== FAQ COLLAPSE ===== */
+  document.querySelectorAll(".faq-question").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const parent = btn.closest(".faq-item");
+      parent.classList.toggle("active");
+    });
+  });
+
+  /* ===== BACKGROUND DINÂMICO REMOVIDO ===== */
+  // Comentado para evitar conflito com o FAQ
+});
+
+
 /* ===============================
    FLATPICKR (CALENDÁRIO)
 ================================ */
@@ -33,8 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const N8N_WEBHOOK_URL = "https://unspent-krishna-ununique.ngrok-free.dev/webhook-test/contact";
 
   // 🚀 Dados do Supabase - substitua pelos seus!
-  const SUPABASE_URL = "https://SEU_PROJETO.supabase.co"; // ex: https://abcdxyz.supabase.co
-  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_ANON";          // ex: sua anon public key
+  const SUPABASE_URL = "https://cmouwbtggvbpqabuutmw.supabase.co"; // ex: https://abcdxyz.supabase.co
+  const SUPABASE_KEY = "sb_publishable_7EF3izXS0AnZ-FCxtGbKag_hfHAjUHj";          // ex: sua anon public key
   const SUPABASE_TABLE = "leads";                          // nome da tabela no Supabase
 
   form.addEventListener("submit", async (e) => {
